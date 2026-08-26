@@ -1,0 +1,9 @@
+[
+  {
+    "id": "rule_001",
+    "name": "default",
+    "description": "Fallback rule for unclassified case data.",
+    "conditions": [],
+    "action": "return_default_response"
+  }
+]
