@@ -43,7 +43,9 @@ export default function Header() {
               type="date" 
               value={asOfDate}
               onChange={(e) => setAsOfDate(e.target.value)}
-          </button>
+              className="text-sm bg-surface-container-low border border-outline-variant rounded px-2 py-0.5 text-on-surface-variant focus:outline-none focus:border-primary"
+            />
+          </div>
         </div>
       </div>
 
