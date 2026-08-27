@@ -1,84 +1,69 @@
+"use client";
+
 import Link from "next/link";
-import {
-  Home,
-  MessageSquare,
-  Compass,
-  TestTube,
-  ShieldCheck,
-  BookOpen,
-  Map,
-  Bookmark,
-  Library,
-  Settings,
-  PlusCircle,
-  HelpCircle,
-  User,
-  Globe
+import { usePathname } from "next/navigation";
+import { 
+  LayoutDashboard, 
+  FileText, 
+  Database, 
+  BrainCircuit, 
+  HelpCircle, 
+  LineChart,
+  Plus
 } from "lucide-react";
 
-export function Sidebar() {
+export default function Sidebar() {
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    { name: "Overview", href: "/overview", icon: FileText },
+    { name: "Facts", href: "/facts", icon: Database },
+    { name: "Analysis", href: "/analysis", icon: BrainCircuit },
+    { name: "Why?", href: "/why", icon: HelpCircle },
+    { name: "Report", href: "/report", icon: LineChart },
+  ];
+
   return (
-    <aside className="w-64 bg-sidebar text-sidebar-foreground border-r border-sidebar-border h-screen sticky top-0 flex flex-col justify-between overflow-y-auto">
-      <div>
-        <div className="p-6">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-accent rounded-md flex items-center justify-center font-serif text-white font-bold text-xl">
-              I
-            </div>
-            <span className="font-serif text-xl font-bold tracking-tight text-white">IP-SAKTI</span>
-          </Link>
+    <nav className="hidden md:flex flex-col fixed left-0 top-0 w-64 h-screen border-r border-outline-variant bg-surface shadow-sm z-50">
+      <div className="p-6 flex items-center gap-3 border-b border-outline-variant">
+        <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+          <span className="text-on-primary font-bold font-headline text-xl">IP</span>
         </div>
-        
-        <div className="px-4 pb-6">
-          <button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 transition-colors flex items-center justify-center gap-2 py-2.5 rounded-md font-medium text-sm mb-4 shadow-sm">
-            <PlusCircle size={16} />
-            New Query
-          </button>
-
-          <nav className="space-y-1">
-            <SidebarItem href="/" icon={<Home size={18} />} label="Dashboard" />
-            <SidebarItem href="/ask" icon={<MessageSquare size={18} />} label="Ask Sahayak" isActive />
-            <SidebarItem href="/navigator" icon={<Compass size={18} />} label="IP Navigator" />
-            <SidebarItem href="/classifier" icon={<TestTube size={18} />} label="Formulation Classifier" />
-            <SidebarItem href="/compliance" icon={<ShieldCheck size={18} />} label="ABS Compliance" />
-            <SidebarItem href="/tkdl" icon={<BookOpen size={18} />} label="TKDL / Prior Art" />
-            <SidebarItem href="/pathway" icon={<Map size={18} />} label="Regulatory Pathway" />
-          </nav>
-
-          <div className="mt-8 mb-2 px-3 text-xs font-semibold text-sidebar-foreground/50 uppercase tracking-wider">
-            Workspace
-          </div>
-          <nav className="space-y-1">
-            <SidebarItem href="/saved" icon={<Bookmark size={18} />} label="Saved Research" />
-            <SidebarItem href="/library" icon={<Library size={18} />} label="Source Library" />
-            <SidebarItem href="/settings" icon={<Settings size={18} />} label="Settings" />
-          </nav>
+        <div>
+          <h1 className="font-headline font-bold text-primary text-xl leading-tight">IP-SAKTI</h1>
+          <p className="text-xs text-on-surface-variant font-medium uppercase tracking-wider">Sahayak Workspace</p>
         </div>
       </div>
 
-      <div className="p-4 border-t border-sidebar-border/30">
-        <nav className="space-y-1">
-          <SidebarItem href="#" icon={<Globe size={18} />} label="English (UK)" />
-          <SidebarItem href="#" icon={<HelpCircle size={18} />} label="IP Facilitator" />
-          <SidebarItem href="#" icon={<User size={18} />} label="Dr. A. Sharma" />
-        </nav>
-      </div>
-    </aside>
-  );
-}
+      <div className="p-4">
+        <button className="w-full bg-primary-container text-on-primary-container py-2.5 px-4 rounded-lg text-sm font-semibold mb-6 flex items-center justify-center gap-2 hover:bg-primary hover:text-on-primary transition-colors shadow-sm">
+          <Plus size={18} />
+          New Case
+        </button>
 
-function SidebarItem({ href, icon, label, isActive }: { href: string; icon: React.ReactNode; label: string; isActive?: boolean }) {
-  return (
-    <Link 
-      href={href} 
-      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
-        isActive 
-          ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" 
-          : "text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
-      }`}
-    >
-      {icon}
-      <span>{label}</span>
-    </Link>
+        <div className="flex flex-col gap-1.5">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
+            
+            return (
+              <Link 
+                key={item.name} 
+                href={item.href}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                  isActive 
+                    ? "bg-primary text-on-primary shadow-sm" 
+                    : "text-on-surface-variant hover:bg-surface-container-high hover:text-primary"
+                }`}
+              >
+                <Icon size={18} className={isActive ? "text-on-primary" : "text-outline"} />
+                {item.name}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </nav>
   );
 }
